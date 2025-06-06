@@ -1,6 +1,6 @@
 public class Maquina {
     private String id;
-    private int piezas;
+    private Integer piezas;
     private boolean estado;
      public Maquina(String id, int piezas) {
         this.id = id;
@@ -24,6 +24,9 @@ public class Maquina {
     }
     public void setEstado(boolean estado) {
         this.estado = estado;
+    }
+    public String toString(){
+        return id;
     }
    
 }
