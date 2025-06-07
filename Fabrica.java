@@ -21,14 +21,14 @@ public class Fabrica {
         this.listaMaquinas= new ArrayList<Maquina>();
     }
     // private int sacarPiezasTot() {
-    //     // TODO Auto-generated method stub
+    //     
     //     HashMap<Integer, String> piezas=this.leerTexto();
         
     //     throw new UnsupportedOperationException("Unimplemented method 'sacarPiezasTot'");
     // }
 
     // private HashMap<Integer, String> leerTexto() {
-    //     // TODO Auto-generated method stub
+    //     
     //     throw new UnsupportedOperationException("Unimplemented method 'leerTexto'");
     // }
      public int getPiezasTot() {
@@ -58,5 +58,12 @@ public class Fabrica {
     }
     public int getAccesosGreedy(){
         return this.greedy.getAccesos();
+    }
+    public static void main(String[] args) {
+        LectorMaquinas lector =  new LectorMaquinas("Maquinas.txt");
+        Fabrica fabrica= new Fabrica(new Backtracking());
+        fabrica.añadirMaquinas(lector.getMaquinas());
+        fabrica.setPiezasTot(lector.getPiezasTotales());
+        fabrica.ejecutarBacktracking();
     }
 }

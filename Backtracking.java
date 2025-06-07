@@ -85,15 +85,15 @@ public class Backtracking {
     }        
 
 
-    public static void main(String[] args) {
+    // public static void main(String[] args) {
        
-        LectorMaquinas lector= new LectorMaquinas("Maquinas.txt");
-        ArrayList<Maquina> maquinas= lector.getMaquinas();
-        Integer piezasTotales= lector.getPiezasTotales();
-        Fabrica fabrica= new Fabrica(new Backtracking());
-        fabrica.añadirMaquinas(maquinas);
-        fabrica.setPiezasTot(piezasTotales);
-        fabrica.ejecutarBacktracking();
+    //     LectorMaquinas lector= new LectorMaquinas("Maquinas.txt");
+    //     ArrayList<Maquina> maquinas= lector.getMaquinas();
+    //     Integer piezasTotales= lector.getPiezasTotales();
+    //     Fabrica fabrica= new Fabrica(new Backtracking());
+    //     fabrica.añadirMaquinas(maquinas);
+    //     fabrica.setPiezasTot(piezasTotales);
+    //     fabrica.ejecutarBacktracking();
       
-        System.out.println("accesos recursivos: "+ fabrica.getAccesos());
-    }
+    //     System.out.println("accesos recursivos: "+ fabrica.getAccesosBacktracking());
+    // }
