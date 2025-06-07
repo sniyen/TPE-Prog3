@@ -1,0 +1,6 @@
+De que manera extraemos los datos del archivo txt? Cualquiera es valido?
+
+Una vez extraídos los datos, en que tiop de estructura los guardamos? array - hashmap?
+
+
+Tenemos pensado usar una tabla de hashing teniendo como key la cant de piezas que hace la maquina y como value la maquina como objeto. Esto con el fin de facilitar la busqueda de maquinas que produzcan cierta cantidad de piezas. Es esto una buena practica?

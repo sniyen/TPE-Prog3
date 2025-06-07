@@ -41,34 +41,39 @@ public class Backtracking {
         return solucion;
     }
     
-        public void resolver(List<Maquina> maquinas, int piezasTotales) {
+    //le da el estado inicial al backtracking para buscar soluciones
+    public void resolver(List<Maquina> maquinas, int piezasTotales) {
         backtrack(maquinas, piezasTotales, 0, new ArrayList<Maquina>());
         System.out.println("Mejor solución con " + minEncendidos + " encendidos:");
         for (Maquina m : soluciones) {
             System.out.println(m);
-        }
+    }
     }
 
     private void backtrack(List<Maquina> maquinas, int piezasRestantes, int encendidos, List<Maquina> actual) {
-        accesos++;                   
+        accesos++;  
+        System.out.println(accesos);                 
         if (piezasRestantes == 0) {
             if (encendidos < minEncendidos) {
                 minEncendidos = encendidos;
+                //ver si en lugar de crear uno nuevo se puede pisar la lista anterior
+                //por eficiencia nada mas xd
                 soluciones = new ArrayList<>(actual);
             }
-            return;
-        }
-
-        if (piezasRestantes < 0 || encendidos >= minEncendidos) {
-            return; 
-        }
-
-        for (Maquina m : maquinas) {
-            actual.add(m);
-            backtrack(maquinas, piezasRestantes - m.getPiezas(), encendidos + 1, actual);
-            actual.remove(actual.size() - 1);
+            
+        } else{
+            for (Maquina m : maquinas) {
+            if (piezasRestantes-m.getPiezas() >= 0 && encendidos < minEncendidos){
+                actual.add(m);
+                backtrack(maquinas, piezasRestantes - m.getPiezas(), encendidos + 1, actual);
+                actual.removeLast();
+            } 
+            
+            }
         }
     }
+    }        
+
 
     public static void main(String[] args) {
        
@@ -82,4 +87,3 @@ public class Backtracking {
       
         System.out.println("accesos recursivos: "+ fabrica.getAccesos());
     }
-}

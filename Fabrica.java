@@ -5,6 +5,7 @@ public class Fabrica {
     // private HashMap<Integer ,String> maquinas;
     private int piezasTot;
     private Backtracking backtracking;
+    private Greedy greedy;
     private ArrayList<Maquina> listaMaquinas;
 
     public Fabrica(Backtracking backtracking) {
@@ -13,7 +14,12 @@ public class Fabrica {
         this.backtracking = backtracking;
         this.listaMaquinas= new ArrayList<Maquina>();
     }
-
+    public Fabrica(Greedy greedy) {
+        // this.maquinas = this.leerTexto();
+        // this.piezasTot = this.sacarPiezasTot();
+        this.greedy =greedy;
+        this.listaMaquinas= new ArrayList<Maquina>();
+    }
     // private int sacarPiezasTot() {
     //     // TODO Auto-generated method stub
     //     HashMap<Integer, String> piezas=this.leerTexto();
@@ -42,8 +48,15 @@ public class Fabrica {
     public void ejecutarBacktracking(){
         this.backtracking.resolver(listaMaquinas, piezasTot);
     }
+
+    public void ejecutarGreedy(){
+        this.greedy.resolver(listaMaquinas, piezasTot);
+    }
     
-public int getAccesos(){
+    public int getAccesosBacktracking(){
     return this.backtracking.getAccesos();
-}
+    }
+    public int getAccesosGreedy(){
+        return this.greedy.getAccesos();
+    }
 }

@@ -1,0 +1,14 @@
+public class MergeSort{
+    private List<Maquina> maquinas;
+    private List<Maquina> helper;
+    private int size;
+
+    public MergeSort(ArrayList<Maquina> maquinas){
+        this.maquinas = maquinas;
+        this.helper = new ArrayList<>();
+        this.size = maquinas.size();
+    }
+
+    
+
+}
