@@ -38,11 +38,6 @@ public class Backtracking {
         return piezasCreadas;
     }
 
-    //le da el estado inicial al backtracking para buscar soluciones
-    public void resolver(List<Maquina> maquinas, int piezasTotales) {
-        backtrack(maquinas, piezasTotales, 0, new ArrayList<Maquina>());
-    }
-
 
     /* Explicacion de estrategia:
      * -Arbol de exploracion:
@@ -70,21 +65,38 @@ public class Backtracking {
      * -Estados posibles:
      *  Aquellos que produzcan una cantidad parcial de piezas, sin superar la cantidad de piezas totales a fabricar.
      */
-    private void backtrack(List<Maquina> maquinas, int piezasRestantes, int encendidos, List<Maquina> actual) {
-        accesos++;                  
+
+
+    //le da el estado inicial al backtracking para buscar soluciones
+    public void resolver(List<Maquina> maquinas, int piezasTotales) {
+        //En esta linea se llama al backtracking con un estado inicial
+        backtrack(maquinas, piezasTotales, 0, new ArrayList<Maquina>());
+    }
+
+    private void backtrack(List<Maquina> maquinas, int piezasRestantes, int encendidos, List<Maquina> actual) {             
+        //incrementamos la cantidad de accesos en uno cada vez que entramos en el metodo backtrack ya sea en estado inicial o de forma recursiva
+        accesos++;  
+        //aca nos hacemos las preguntas, ¿nos queda alguna pieza para hacer?, ¿El numero de encendidos actual es menor que el de la mejor solucion encontrada hasta ahora?                
         if (piezasRestantes == 0) {
             if (encendidos < minEncendidos) {
+                //En caso afirmativo, la solucion y el minEncendidos toman los valores actuales con la mejor solucion encontrada hasta el momento
                 minEncendidos = encendidos;
                 soluciones = new ArrayList<>(actual);
             }
-        } else {
+            //en caso negativo (es decir, que no estemos en una solucion válida completa)
+        } else{
+            //recorremos una por una la lista de maquinas
             for (Maquina m : maquinas) {
+                //y nos hacemos la pregunta, ¿La maquina actual sería un elemento valido del conjunto de maquinas para resolver el problema?, este if retira un conjunto de soluciones inválidas como estratégia de poda
                 if (piezasRestantes-m.getPiezas() >= 0 && encendidos < minEncendidos){
+                    //en caso afirmativo, se añade la maquina a la lista de maquinas actuales
                     actual.add(m);
+                    //y se llama al backtrack de forma recursiva, dando nuevos valores a la lista actual, el numero de encendidos y la cantidad de piezas restantes
                     backtrack(maquinas, piezasRestantes - m.getPiezas(), encendidos + 1, actual);
+                    //cuando el programa termina con un backtrack, el código vuelve a esta linea, y se remueve la última solución para poner otra maquina en esa posición
                     actual.removeLast();
-                } 
+                }
             }
         }
     }
-}        
+}

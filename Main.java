@@ -12,17 +12,16 @@ public class Main {
         fabrica.setPiezasTot(piezasTotales);
         System.out.println("Piezas totales: " + fabrica.getPiezasTot());
         System.out.println("Maquinas disponibles: \n" + fabrica.getMaquinasDisponibles());
-        /* Explicacion backtracking */
+
         fabrica.ejecutarBacktracking();
-        System.out.println("Backtracking\n" +
+        System.out.println("---Backtracking---\n" +
                    "Solución obtenida: " + fabrica.getMaquinasSolucionBacktracking() + "\n" +
                    "Cantidad de piezas producidas: " +  fabrica.getPiezasCreadasBacktracking() + "\n" + 
                    "Puestas en funcionamiento: " + fabrica.getMinEncendidosBactracking() + "\n" +
                    "Estados generados: " + fabrica.getAccesosBacktracking());
         
-        /* Explicacion greedy */
         fabrica.ejecutarGreedy();
-        System.out.println("Greedy\n" +
+        System.out.println("---Greedy---\n" +
                    "Solución obtenida: " + fabrica.getMaquinasSolucionGreedy() + "\n" +
                    "Cantidad de piezas producidas: " + fabrica.getPiezasCreadasGreedy() + "\n" +
                    "Puestas en funcionamiento: " + fabrica.getMaquinasSolucionGreedy().size() + "\n" +

@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class Greedy {
-    private ArrayList<Maquina> soluciones;
+    private ArrayList<Maquina> solucion;
     private int accesos;
 
     public Greedy(){
         this.accesos=0;
-        this.soluciones = new ArrayList<Maquina>();
+        this.solucion = new ArrayList<Maquina>();
     }
     
     public int getAccesos(){
@@ -17,12 +17,12 @@ public class Greedy {
     }
 
     public ArrayList<Maquina> getSoluciones (){
-        return (ArrayList<Maquina>)soluciones.clone();
+        return (ArrayList<Maquina>)solucion.clone();
     }
 
     public int getPiezasCreadas (){
         int piezasCreadas = 0;
-        for (Maquina m : soluciones){
+        for (Maquina m : solucion){
             piezasCreadas += m.getPiezas();
         }
         return piezasCreadas;
@@ -60,17 +60,25 @@ public class Greedy {
      */
 
     public void resolver(ArrayList<Maquina> maquinas, int piezasTotales){
+        //creamos una lista ordenada de maquinas de forma decreciente, y una variable piezas creadas iniciada en cero
         ArrayList<Maquina> listaOrdenada = this.ordenarArreglo(maquinas);
         int piezasCreadas=0;
-        /* ArrayList<Maquina> soluciones= new ArrayList<Maquina>(); */
+        //también creamos el arreglo soluciones, donde se guardara la combinación de maquinas que den menor cantidad de encendidos
+        this.solucion= new ArrayList<Maquina>();
+        //Recorremos todas las maquinas una por una
         for (Maquina maquina : listaOrdenada) {
-            while(maquina.getPiezas()+piezasCreadas <= piezasTotales){
-                accesos++;
-                this.soluciones.add(maquina);
-                piezasCreadas=piezasCreadas+maquina.getPiezas();
-            }
+        /*cuando agarramos una maquina hacemos una pregunta, ¿genera una cantidad de piezas que me sirva?
+        si esta respuesta es afirmativa, agrega la maquina tantas veces como se pueda sin pasarse de piezas.
+        Cuando sumar las piezas de esa maquina implica pasarse del total, la iteración condicional se corta, y se analiza la proxima maquina 
+        que al ser un arreglo ordenado va dando maquinas que generan cada vez menos piezas al avanzar) */
+                while(maquina.getPiezas()+piezasCreadas <= piezasTotales){
+                    // se incrementa la cantidad de accesos para analizar junto a la solucion
+                    accesos++; 
+                    // se añade la maquina a la solución
+                    this.solucion.add(maquina); 
+                    //agregamos las piezas creadas por la maquina actual para que el while vuelva a validar la condición
+                    piezasCreadas=piezasCreadas+maquina.getPiezas();
+                }
         }
     }
-
-
 }
