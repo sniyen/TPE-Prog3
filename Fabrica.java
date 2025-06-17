@@ -1,37 +1,18 @@
 import java.util.ArrayList;
-// import java.util.HashMap;
 
 public class Fabrica {
-    // private HashMap<Integer ,String> maquinas;
     private int piezasTot;
     private Backtracking backtracking;
     private Greedy greedy;
     private ArrayList<Maquina> listaMaquinas;
 
-    public Fabrica(Backtracking backtracking) {
-        // this.maquinas = this.leerTexto();
-        // this.piezasTot = this.sacarPiezasTot();
-        this.backtracking = backtracking;
-        this.listaMaquinas= new ArrayList<Maquina>();
+    public Fabrica() {
+        this.backtracking = new Backtracking();
+        this.greedy = new Greedy();
+        this.listaMaquinas = new ArrayList<>();
     }
-    public Fabrica(Greedy greedy) {
-        // this.maquinas = this.leerTexto();
-        // this.piezasTot = this.sacarPiezasTot();
-        this.greedy =greedy;
-        this.listaMaquinas= new ArrayList<Maquina>();
-    }
-    // private int sacarPiezasTot() {
-    //     // TODO Auto-generated method stub
-    //     HashMap<Integer, String> piezas=this.leerTexto();
-        
-    //     throw new UnsupportedOperationException("Unimplemented method 'sacarPiezasTot'");
-    // }
 
-    // private HashMap<Integer, String> leerTexto() {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'leerTexto'");
-    // }
-     public int getPiezasTot() {
+    public int getPiezasTot() {
         return piezasTot;
     }
 
@@ -39,24 +20,51 @@ public class Fabrica {
         this.piezasTot = piezasTot;
     }
 
-    public void añadirMaquina(Maquina m){
-        this.listaMaquinas.add(m);
-    }
-    public void añadirMaquinas(ArrayList<Maquina> m){
+    public void agregarMaquinas(ArrayList<Maquina> m){
         this.listaMaquinas.addAll(m);
     }
+
+    public ArrayList<Maquina> getMaquinasDisponibles (){
+        return (ArrayList<Maquina>)listaMaquinas.clone();
+    }
+
+    // metodos de backtracking
+
     public void ejecutarBacktracking(){
         this.backtracking.resolver(listaMaquinas, piezasTot);
     }
 
+    public ArrayList<Maquina> getMaquinasSolucionBacktracking (){
+        return this.backtracking.getSoluciones();
+    }
+
+    public int getMinEncendidosBactracking(){
+        return this.backtracking.getMinEncendidos();
+    }
+
+    public int getAccesosBacktracking(){
+        return this.backtracking.getAccesos();
+    }
+
+    public int getPiezasCreadasBacktracking (){
+        return this.backtracking.getPiezasCreadas();
+    }
+
+    // metodos de greedy
     public void ejecutarGreedy(){
         this.greedy.resolver(listaMaquinas, piezasTot);
     }
-    
-    public int getAccesosBacktracking(){
-    return this.backtracking.getAccesos();
+
+    public ArrayList<Maquina> getMaquinasSolucionGreedy (){
+        return this.greedy.getSoluciones();
     }
+
     public int getAccesosGreedy(){
         return this.greedy.getAccesos();
     }
+
+    public int getPiezasCreadasGreedy (){
+        return this.greedy.getPiezasCreadas();
+    }
+
 }
