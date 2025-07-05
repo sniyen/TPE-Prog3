@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Fabrica {
     private int piezasTot;
@@ -55,7 +56,7 @@ public class Fabrica {
         this.greedy.resolver(listaMaquinas, piezasTot);
     }
 
-    public ArrayList<Maquina> getMaquinasSolucionGreedy (){
+    public HashMap<Maquina, Integer> getMaquinasSolucionGreedy (){
         return this.greedy.getSoluciones();
     }
 

@@ -2,8 +2,7 @@ import java.util.ArrayList;
 
 public class Main {
     
-        public static void main(String[] args) {
-       
+    public static void main(String[] args) {
         LectorMaquinas lector= new LectorMaquinas("Maquinas.txt");
         ArrayList<Maquina> maquinas= lector.getMaquinas();
         Integer piezasTotales= lector.getPiezasTotales();
@@ -26,5 +25,8 @@ public class Main {
                    "Cantidad de piezas producidas: " + fabrica.getPiezasCreadasGreedy() + "\n" +
                    "Puestas en funcionamiento: " + fabrica.getMaquinasSolucionGreedy().size() + "\n" +
                    "Estados generados: " + fabrica.getAccesosGreedy());
+        if (fabrica.getPiezasCreadasGreedy() == 0){
+            System.out.println("no se encontro una solucion valida en Greedy");
+        }
     }
 }

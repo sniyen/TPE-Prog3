@@ -1,35 +1,38 @@
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.util.HashMap;
+import java.util.Map;
 public class Greedy {
-    private ArrayList<Maquina> solucion;
+    //este Map sera una maquina y la cantidad de encendidos.
+    private Map <Maquina, Integer> solucion;
+    //cantidad de estados generados
     private int accesos;
-
-    public Greedy(){
-        this.accesos=0;
-        this.solucion = new ArrayList<Maquina>();
-    }
     
+    public Greedy() {
+        this.solucion= new HashMap<>();
+        this.accesos = 0;
+    }
+
     public int getAccesos(){
         return accesos;
     }
 
-    public ArrayList<Maquina> getSoluciones (){
-        return (ArrayList<Maquina>)solucion.clone();
+    public HashMap<Maquina, Integer> getSoluciones (){        
+        return new HashMap<>(solucion);
     }
 
     public int getPiezasCreadas (){
         int piezasCreadas = 0;
-        for (Maquina m : solucion){
-            piezasCreadas += m.getPiezas();
+        int encendidos = 0;
+        for (Maquina m : solucion.keySet()){
+            encendidos = solucion.get(m);
+            piezasCreadas += m.getPiezas()*encendidos;
         }
         return piezasCreadas;
     }
 
-    public ArrayList<Maquina> ordenarArreglo(ArrayList<Maquina> maquinas){
-        //Se ordena el arreglo de manera descendente segun las piezas que produce cada maquina
+    public ArrayList<Maquina> ordenarMaquinas (ArrayList<Maquina> maquinas){
         ArrayList<Maquina> retorno = new ArrayList<>(maquinas);
         Collections.sort(retorno, new Comparator<Maquina>() {
             @Override
@@ -39,20 +42,18 @@ public class Greedy {
         });
         return retorno;
     }
+      // ordenar el arreglo, agarrar el primero y ver cuantas veces nos sirve, cuando deja de servir, movemos el cursor al siguiente elemento de la lista
 
-
-    // ordenar el arreglo, agarrar el primero y ver cuantas veces nos sirve, cuando deja de servir, movemos el cursor al siguiente elemento de la lista
-
-    /* Explicacion de estrategia:
+     /* Explicacion de estrategia:
      * -Candidatos:
      *      Los posibles candidatos seran las maquinas disponibles para ser encendidas.      
      *
      * -Estrategia de seleccion de candidatos:
      *      Se tiene una lista de maquinas disponibles, las cuales se ordenan de manera descendente segun el numero
      *      de piezas que producen. Se selecciona la maquina con mayor capacidad siempre que no supere
-     *      la cantidad total de piezas a producir. Mientras la suma de las piezas producidas mas las piezas que la 
-     *      maquina es capaz de producir no supere la cantidad total de las piezas requeridas, se sigue encendiendo la 
-     *      misma maquina. Cuando esta deje de ser un candidato valido, se intenta seguir con la proxima maquina en la lista.
+     *      la cantidad total de piezas a producir. Se calcula cuantas veces se puede encender la misma debido a que no hay restricciones
+     *      sobre usar una maquina de manera consecutiva, este resultado se guarda en el hashmap solucion siendo una estructura Maquina-Encendidos.
+     *      Cuando la maquina deja de ser un candidato valido, se intenta seguir con la proxima maquina en la lista.
      * 
      * - Consideraciones respecto a encontrar o no solución:
      *      Esta estrategia no garantiza que se encuentre la solucion optima, ya que puede que no se produzca la cantidad exacta
@@ -61,24 +62,30 @@ public class Greedy {
 
     public void resolver(ArrayList<Maquina> maquinas, int piezasTotales){
         //creamos una lista ordenada de maquinas de forma decreciente, y una variable piezas creadas iniciada en cero
-        ArrayList<Maquina> listaOrdenada = this.ordenarArreglo(maquinas);
-        int piezasCreadas=0;
-        //también creamos el arreglo soluciones, donde se guardara la combinación de maquinas que den menor cantidad de encendidos
-        this.solucion= new ArrayList<Maquina>();
+        ArrayList<Maquina> listaOrdenada = this.ordenarMaquinas(maquinas);
+        int piezasCreadas = 0;
+        //también creamos el Hashmap soluciones, donde se guardara la combinación de maquinas-encendidos que den menor cantidad total de encendidos 
+        this.solucion = new HashMap<Maquina, Integer>();
         //Recorremos todas las maquinas una por una
         for (Maquina maquina : listaOrdenada) {
-        /*cuando agarramos una maquina hacemos una pregunta, ¿genera una cantidad de piezas que me sirva?
-        si esta respuesta es afirmativa, agrega la maquina tantas veces como se pueda sin pasarse de piezas.
-        Cuando sumar las piezas de esa maquina implica pasarse del total, la iteración condicional se corta, y se analiza la proxima maquina 
-        que al ser un arreglo ordenado va dando maquinas que generan cada vez menos piezas al avanzar) */
-                while(maquina.getPiezas()+piezasCreadas <= piezasTotales){
-                    // se incrementa la cantidad de accesos para analizar junto a la solucion
-                    accesos++; 
-                    // se añade la maquina a la solución
-                    this.solucion.add(maquina); 
-                    //agregamos las piezas creadas por la maquina actual para que el while vuelva a validar la condición
-                    piezasCreadas=piezasCreadas+maquina.getPiezas();
+            accesos++;
+            int pRestantes = piezasTotales - piezasCreadas;
+            int pMaquina = maquina.getPiezas();
+            if (pMaquina <= pRestantes){
+                int div = pRestantes/pMaquina;
+                //vemos si la maquina es candidata valida y cuantas veces.
+                if (div >= 1){
+                    solucion.put(maquina, div);
+                    piezasCreadas += pMaquina * div;
                 }
+            }
+        }
+        //si no encuentra una solucion optima (no se crea la cantidad necesaria de piezas) 
+        //elimina el contenido de solucion para evitar devolver una solucion parcial.
+        if (piezasCreadas < piezasTotales){
+            solucion.clear();
+            accesos = 0;
+            piezasCreadas = 0;
         }
     }
 }
